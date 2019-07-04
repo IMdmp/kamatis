@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.dmp.project.kamatis2.gles;
+package com.dmp.project.kamatis.gles;
 
 /**
  * This class essentially represents a viewport-sized sprite that will be rendered with

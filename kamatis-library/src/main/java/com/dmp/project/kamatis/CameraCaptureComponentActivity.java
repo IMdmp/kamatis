@@ -1,6 +1,5 @@
-package com.dmp.project.kamatis2;
+package com.dmp.project.kamatis;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
@@ -9,45 +8,33 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.MediaRecorder;
-import android.opengl.EGL14;
-import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.util.Size;
-import android.util.TypedValue;
 import android.view.Display;
 import android.view.Surface;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.dmp.project.kamatis2.controls.RecordingControls;
-import com.dmp.project.kamatis2.gles.FullFrameRect;
-import com.dmp.project.kamatis2.gles.Texture2dProgram;
-import com.dmp.project.kamatis2.parts.TextureMovieEncoder;
-import com.dmp.project.kamatis2.utils.CameraSurfaceRenderer;
-import com.dmp.project.kamatis2.utils.PermissionHelper;
-import com.dmp.project.kamatis2.utils.VideoUtils;
+import com.dmp.project.kamatis.controls.RecordingControls;
+import com.dmp.project.kamatis.parts.TextureMovieEncoder;
+import com.dmp.project.kamatis.utils.CameraSurfaceRenderer;
+import com.dmp.project.kamatis.utils.PermissionHelper;
+import com.dmp.project.kamatis.utils.VideoUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
 
 public abstract class CameraCaptureComponentActivity extends AppCompatActivity   implements SurfaceTexture.OnFrameAvailableListener, AdapterView.OnItemSelectedListener, RecordingControls {
 
@@ -71,12 +58,11 @@ public abstract class CameraCaptureComponentActivity extends AppCompatActivity  
     private static TextureMovieEncoder sVideoEncoder = new TextureMovieEncoder();
     private VideoResolution videoResolution;
 
-    public abstract  VideoResolution providePreferredVideoResolution();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        setContentView(R.layout.activity_grafika_capture);
         super.onCreate(savedInstanceState);
-        File outputFile = new File(getCacheDir(), provideInitialVideoName());
+        File outputFile = new File(Environment.getExternalStorageDirectory(), provideInitialVideoName());
 
         // Define a handler that receives camera-control messages from other threads.  All calls
         // to Camera must be made on the same thread.  Note we create this before the renderer
@@ -88,32 +74,18 @@ public abstract class CameraCaptureComponentActivity extends AppCompatActivity  
         // appropriate EGL context.
         mGLView = provideGLSurfaceView();//(GLSurfaceView) findViewById(R.id.cameraPreview_surfaceView);
         mGLView.setEGLContextClientVersion(2);     // select GLES 2.0
+        videoResolution = providePreferredVideoResolution();
         mRenderer = new CameraSurfaceRenderer(mCameraHandler, sVideoEncoder, outputFile,videoResolution);
 
         mGLView.setRenderer(mRenderer);
         mGLView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
-        videoResolution = providePreferredVideoResolution();
         //Log.d(TAG,"onCreate complete: %s", this);
     }
 
     public abstract String provideInitialVideoName();
+    public abstract  VideoResolution providePreferredVideoResolution();
 
     protected abstract GLSurfaceView provideGLSurfaceView();
-
-    private void animateProgressBarSize(ProgressBar progressBar, int size, TextView tvCountDown, int textSize) {
-        ValueAnimator anim = ValueAnimator.ofInt(progressBar.getMeasuredHeight(), size);
-        anim.addUpdateListener(valueAnimator -> {
-            int val = (Integer) valueAnimator.getAnimatedValue();
-            ViewGroup.LayoutParams layoutParams = progressBar.getLayoutParams();
-            layoutParams.height = val;
-            layoutParams.width = val;
-            progressBar.setLayoutParams(layoutParams);
-        });
-
-        tvCountDown.setTextSize(TypedValue.COMPLEX_UNIT_SP,textSize);
-        anim.setDuration(200);
-        anim.start();
-    }
 
     @Override
     protected void onResume() {
@@ -134,7 +106,13 @@ public abstract class CameraCaptureComponentActivity extends AppCompatActivity  
 
         } else {
             //Log.d(TAG,"NO PERMISSIONS");
-            PermissionHelper.requestCameraPermission(this, false);
+            PermissionHelper.requestCameraPermission(this, true);
+        }
+
+        if(PermissionHelper.hasWriteStoragePermission(this)){
+
+        }else{
+            PermissionHelper.requestWriteStoragePermission(this);
         }
 
         mGLView.onResume();
@@ -197,7 +175,7 @@ public abstract class CameraCaptureComponentActivity extends AppCompatActivity  
 
     @Override
     public void setVideoName(String videoName){
-        File outputFile = new File(getCacheDir(), videoName);
+        File outputFile = new File(Environment.getExternalStorageDirectory(), videoName);
         mRenderer.setmOutputFile(outputFile);
     }
     /**
@@ -226,7 +204,9 @@ public abstract class CameraCaptureComponentActivity extends AppCompatActivity  
         if (!PermissionHelper.hasCameraPermission(this)) {
             Toast.makeText(this,
                     "Camera permission is needed to run this application", Toast.LENGTH_LONG).show();
-            PermissionHelper.launchPermissionSettings(this);
+//            PermissionHelper.launchPermissionSettings(this);
+            PermissionHelper.requestCameraPermission(this, false);
+
             finish();
         } else {
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.dmp.project.kamatis2.gles;
+package com.dmp.project.kamatis.gles;
 
 import android.graphics.SurfaceTexture;
 import android.view.Surface;

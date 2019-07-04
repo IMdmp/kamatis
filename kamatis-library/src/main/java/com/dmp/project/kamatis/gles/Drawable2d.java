@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package com.dmp.project.kamatis2.gles;
-
-import com.dmp.project.kamatis2.gles.GlUtil;
+package com.dmp.project.kamatis.gles;
 
 import java.nio.FloatBuffer;
 

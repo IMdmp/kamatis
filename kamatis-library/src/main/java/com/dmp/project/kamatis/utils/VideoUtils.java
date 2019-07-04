@@ -1,4 +1,4 @@
-package com.dmp.project.kamatis2.utils;
+package com.dmp.project.kamatis.utils;
 
 import android.util.Size;
 

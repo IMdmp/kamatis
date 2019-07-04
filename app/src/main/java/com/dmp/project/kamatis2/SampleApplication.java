@@ -1,6 +1,7 @@
-package com.dmp.project.kamatis;
+package com.dmp.project.kamatis2;
 
 import android.app.Application;
+
 
 import timber.log.Timber;
 

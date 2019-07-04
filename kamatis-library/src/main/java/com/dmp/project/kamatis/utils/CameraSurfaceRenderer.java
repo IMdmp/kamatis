@@ -1,4 +1,4 @@
-package com.dmp.project.kamatis2.utils;
+package com.dmp.project.kamatis.utils;
 
 import android.graphics.SurfaceTexture;
 import android.opengl.EGL14;
@@ -9,11 +9,11 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
-import com.dmp.project.kamatis2.CameraCaptureComponentActivity;
-import com.dmp.project.kamatis2.VideoResolution;
-import com.dmp.project.kamatis2.gles.FullFrameRect;
-import com.dmp.project.kamatis2.gles.Texture2dProgram;
-import com.dmp.project.kamatis2.parts.TextureMovieEncoder;
+import com.dmp.project.kamatis.CameraCaptureComponentActivity;
+import com.dmp.project.kamatis.gles.FullFrameRect;
+import com.dmp.project.kamatis.VideoResolution;
+import com.dmp.project.kamatis.gles.Texture2dProgram;
+import com.dmp.project.kamatis.parts.TextureMovieEncoder;
 
 import java.io.File;
 

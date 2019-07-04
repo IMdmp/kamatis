@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.dmp.project.kamatis2.parts;
+package com.dmp.project.kamatis.parts;
 
 import android.graphics.SurfaceTexture;
 import android.opengl.EGLContext;
@@ -24,11 +24,11 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
-import com.dmp.project.kamatis2.gles.EglCore;
-import com.dmp.project.kamatis2.gles.FullFrameRect;
-import com.dmp.project.kamatis2.gles.Texture2dProgram;
-import com.dmp.project.kamatis2.gles.VideoEncoderCore;
-import com.dmp.project.kamatis2.gles.WindowSurface;
+import com.dmp.project.kamatis.gles.EglCore;
+import com.dmp.project.kamatis.gles.FullFrameRect;
+import com.dmp.project.kamatis.gles.VideoEncoderCore;
+import com.dmp.project.kamatis.gles.WindowSurface;
+import com.dmp.project.kamatis.gles.Texture2dProgram;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.dmp.project.kamatis2.controls;
+package com.dmp.project.kamatis.controls;
 
 public interface RecordingControls {
 

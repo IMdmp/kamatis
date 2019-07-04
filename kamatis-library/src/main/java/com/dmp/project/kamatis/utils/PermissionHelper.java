@@ -1,4 +1,4 @@
-package com.dmp.project.kamatis2.utils;
+package com.dmp.project.kamatis.utils;
 
 import android.Manifest;
 import android.app.Activity;
@@ -29,6 +29,7 @@ public class PermissionHelper {
     }
 
     public static void requestCameraPermission(Activity activity, boolean requestWritePermission) {
+
         boolean showRationale = ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CAMERA)
                 || ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.RECORD_AUDIO)
                 || (requestWritePermission && ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE));

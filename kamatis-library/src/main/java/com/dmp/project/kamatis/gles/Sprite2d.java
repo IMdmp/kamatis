@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package com.dmp.project.kamatis2.gles;
+package com.dmp.project.kamatis.gles;
 
 import android.opengl.Matrix;
-
-import com.dmp.project.kamatis2.gles.Texture2dProgram;
 
 /**
  * Base class for a 2d object.  Includes position, scale, rotation, and flat-shaded color.

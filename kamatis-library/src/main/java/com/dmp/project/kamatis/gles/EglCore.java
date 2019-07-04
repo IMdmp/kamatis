@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.dmp.project.kamatis2.gles;
+package com.dmp.project.kamatis.gles;
 
 import android.graphics.SurfaceTexture;
 import android.opengl.EGL14;
@@ -25,8 +25,6 @@ import android.opengl.EGLExt;
 import android.opengl.EGLSurface;
 import android.util.Log;
 import android.view.Surface;
-
-import com.dmp.project.kamatis2.gles.GlUtil;
 
 /**
  * Core EGL state (display, context, config).

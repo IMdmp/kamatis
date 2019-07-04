@@ -1,10 +1,10 @@
-package com.dmp.project.kamatis2;
+package com.dmp.project.kamatis;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-class AspectFrameLayout extends FrameLayout {
+public class AspectFrameLayout extends FrameLayout {
 
     private double mTargetAspect = -1.0;        // initially use default window size
 
