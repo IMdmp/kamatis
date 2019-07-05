@@ -13,6 +13,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name="com.dmp.project.kamatis2.MainActivity">
+
+        </activity>
+        <activity android:name=".Version2TestActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

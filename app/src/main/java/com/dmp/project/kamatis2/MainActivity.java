@@ -4,10 +4,10 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.dmp.project.kamatis.AspectFrameLayout;
-import com.dmp.project.kamatis.CameraCaptureComponentActivity;
-import com.dmp.project.kamatis.VideoResolution;
-import com.dmp.project.kamatis.Tester;
+import com.dmp.project.kamatis.version1.AspectFrameLayout;
+import com.dmp.project.kamatis.version1.CameraCaptureComponentActivity;
+import com.dmp.project.kamatis.version1.VideoResolution;
+import com.dmp.project.kamatis.version1.Tester;
 
 import timber.log.Timber;
 

@@ -15,7 +15,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.dmp.project.kamatis.AspectFrameLayout
+    <com.dmp.project.kamatis.version1.AspectFrameLayout
         android:id="@+id/aspectFrameLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center" />
 
-    </com.dmp.project.kamatis.AspectFrameLayout>
+    </com.dmp.project.kamatis.version1.AspectFrameLayout>
 
     <Button
         android:id="@+id/btn_start_recording"
