@@ -165,15 +165,12 @@ public final class CameraGLView extends GLSurfaceView {
 
 	public void setVideoEncoder(final MediaVideoEncoder encoder) {
 		if (DEBUG) Log.v(TAG, "setVideoEncoder:tex_id=" + mRenderer.hTex + ",encoder=" + encoder);
-		queueEvent(new Runnable() {
-			@Override
-			public void run() {
-				synchronized (mRenderer) {
-					if (encoder != null) {
-						encoder.setEglContext(EGL14.eglGetCurrentContext(), mRenderer.hTex);
-					}
-					mRenderer.mVideoEncoder = encoder;
+		queueEvent(() -> {
+			synchronized (mRenderer) {
+				if (encoder != null) {
+					encoder.setEglContext(EGL14.eglGetCurrentContext(), mRenderer.hTex);
 				}
+				mRenderer.mVideoEncoder = encoder;
 			}
 		});
 	}

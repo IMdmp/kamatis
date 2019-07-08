@@ -1,5 +1,6 @@
 package com.dmp.project.kamatis2;
 
+import android.Manifest;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.widget.Button;
@@ -8,6 +9,13 @@ import com.dmp.project.kamatis.version1.AspectFrameLayout;
 import com.dmp.project.kamatis.version1.CameraCaptureComponentActivity;
 import com.dmp.project.kamatis.version1.VideoResolution;
 import com.dmp.project.kamatis.version1.Tester;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -26,7 +34,6 @@ public class MainActivity extends CameraCaptureComponentActivity {
         setContentView(R.layout.activity_main);
 
         isRecording = false;
-
 
         aspectFrameLayout = findViewById(R.id.aspectFrameLayout);
         glSurfaceView = findViewById(R.id.glSurfaceView);
@@ -50,6 +57,23 @@ public class MainActivity extends CameraCaptureComponentActivity {
         super.onCreate(savedInstanceState);
 
 
+    }
+
+    private void askPermission() {
+        Dexter.withActivity(this)
+                .withPermissions(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.RECORD_AUDIO
+                ).withListener(new MultiplePermissionsListener() {
+            @Override public void onPermissionsChecked(MultiplePermissionsReport report) {/* ... */
+
+
+            }
+
+            @Override public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {/* ... */}
+        }).check();
     }
 
     @Override

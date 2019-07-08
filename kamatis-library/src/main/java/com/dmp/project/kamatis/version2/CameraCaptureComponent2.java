@@ -12,6 +12,7 @@ import com.dmp.project.kamatis.version1.encoder.MediaVideoEncoder;
 import java.io.IOException;
 
 public class CameraCaptureComponent2 {
+
     private static final String TAG = "CameraCaptureComponent2";
 
     private static final boolean DEBUG = BuildConfig.DEBUG;
@@ -19,7 +20,18 @@ public class CameraCaptureComponent2 {
     private final CameraGLView cameraGlViewPreviewDisplay;
     private MediaMuxerWrapper mMuxer;
     private int cameraId = 1;
+    private String videoName= "test";
+    private static final String VIDEO_TYPE_MP4 = ".mp4";
+    private final String  directory;
 
+    public CameraCaptureComponent2(CameraGLView cameraGlViewPreviewDisplay, VideoResolution videoResolution,String directory) {
+        Log.d(TAG,"directory set to: "+directory);
+        this.cameraGlViewPreviewDisplay = cameraGlViewPreviewDisplay;
+
+        this.cameraGlViewPreviewDisplay.setVideoSize(videoResolution.getHeight(), videoResolution.getWidth());
+        frontAndBackCamEnabled = cameraGlViewPreviewDisplay.isFrontAndBackCamEnabled();
+        this.directory = directory;
+    }
 
     private final CameraCaptureController cameraCaptureController = new CameraCaptureController() {
         @Override
@@ -99,12 +111,7 @@ public class CameraCaptureComponent2 {
         }
     };
 
-    public CameraCaptureComponent2(CameraGLView cameraGlViewPreviewDisplay, VideoResolution videoResolution) {
-        this.cameraGlViewPreviewDisplay = cameraGlViewPreviewDisplay;
 
-        this.cameraGlViewPreviewDisplay.setVideoSize(videoResolution.getHeight(), videoResolution.getWidth());
-        frontAndBackCamEnabled = cameraGlViewPreviewDisplay.isFrontAndBackCamEnabled();
-    }
 
     public CameraCaptureController getCameraCaptureController() {
         return cameraCaptureController;
@@ -120,7 +127,9 @@ public class CameraCaptureComponent2 {
         if (DEBUG) Log.v(TAG, "startRecording:");
         try {
 //            mRecordButton.setColorFilter(0xffff0000);    // turn red
-            mMuxer = new MediaMuxerWrapper(".mp4");    // if you record audio only, ".m4a" is also OK.
+//            mMuxer = new MediaMuxerWrapper(".mp4");    // if you record audio only, ".m4a" is also OK.
+            mMuxer  = new MediaMuxerWrapper(videoName,directory,VIDEO_TYPE_MP4);
+
             if (true) {
                 // for video capturing
                 new MediaVideoEncoder(mMuxer, mMediaEncoderListener,
