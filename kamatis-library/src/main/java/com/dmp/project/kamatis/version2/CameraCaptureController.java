@@ -7,6 +7,9 @@ public interface CameraCaptureController {
 
 
     void startRecording();
+    void startRecording(String videoName);
+
+
     void stopRecording();
 
     void switchCamView();

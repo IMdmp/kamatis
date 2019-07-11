@@ -53,6 +53,12 @@ public class CameraCaptureComponent2 {
         }
 
         @Override
+        public void startRecording(String videoName) {
+            startRecordingCamera(videoName);
+
+        }
+
+        @Override
         public void stopRecording() {
             stopRecordingCamera();
         }
@@ -68,6 +74,8 @@ public class CameraCaptureComponent2 {
             }
         }
     };
+
+
 
     /**
      * callback methods from encoder
@@ -124,6 +132,31 @@ public class CameraCaptureComponent2 {
      * of encoder is heavy work
      */
     private void startRecordingCamera() {
+        if (DEBUG) Log.v(TAG, "startRecording:");
+        try {
+//            mRecordButton.setColorFilter(0xffff0000);    // turn red
+//            mMuxer = new MediaMuxerWrapper(".mp4");    // if you record audio only, ".m4a" is also OK.
+            mMuxer  = new MediaMuxerWrapper(videoName,directory,VIDEO_TYPE_MP4);
+
+            if (true) {
+                // for video capturing
+                new MediaVideoEncoder(mMuxer, mMediaEncoderListener,
+                        mTimingListener,
+                        cameraGlViewPreviewDisplay.getVideoWidth(),
+                        cameraGlViewPreviewDisplay.getVideoHeight());
+            }
+            if (true) {
+                // for audio capturing
+                new MediaAudioEncoder(mMuxer, mMediaEncoderListener, mTimingListener);
+            }
+            mMuxer.prepare();
+            mMuxer.startRecording();
+        } catch (final IOException e) {
+//            mRecordButton.setColorFilter(0);
+            Log.e(TAG, "startCapture:", e);
+        }
+    }
+    private void startRecordingCamera(String videoName) {
         if (DEBUG) Log.v(TAG, "startRecording:");
         try {
 //            mRecordButton.setColorFilter(0xffff0000);    // turn red

@@ -3,10 +3,10 @@ package com.dmp.project.kamatis2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.app.LauncherActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.dmp.project.kamatis2.version2.Version2TestActivity;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
