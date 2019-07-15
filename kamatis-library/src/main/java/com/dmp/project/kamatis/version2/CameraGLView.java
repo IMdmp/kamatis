@@ -34,12 +34,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Config;
 import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.WindowManager;
 
+import com.dmp.project.kamatis.BuildConfig;
 import com.dmp.project.kamatis.version1.encoder.MediaVideoEncoder;
 import com.dmp.project.kamatis.version1.gles.GLDrawer2D;
 
@@ -57,11 +59,8 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public final class CameraGLView extends GLSurfaceView {
 
-	private static final boolean DEBUG = false; // TODO set false on release
+	private static final boolean DEBUG = BuildConfig.DEBUG;
 	private static final String TAG = "CameraGLView";
-
-	private static final int MAX_HEIGHT = 1280;
-	private static final int MAX_WIDTH = 720;
 	private static final int SCALE_CROP_CENTER = 3;
 	static private int mCameraId = 1;
 	private final CameraSurfaceRenderer mRenderer;
@@ -183,7 +182,7 @@ public final class CameraGLView extends GLSurfaceView {
 			thread.start();
 			mCameraHandler = thread.getHandler();
 		}
-		mCameraHandler.startPreview(MAX_HEIGHT, MAX_WIDTH /*width, height*/);
+		mCameraHandler.startPreview(getVideoWidth(), getVideoHeight()/*width, height*/);
 	}
 
 	private synchronized void stopPreview() {

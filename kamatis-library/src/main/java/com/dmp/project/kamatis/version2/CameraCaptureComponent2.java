@@ -28,7 +28,7 @@ public class CameraCaptureComponent2 {
         Log.d(TAG,"directory set to: "+directory);
         this.cameraGlViewPreviewDisplay = cameraGlViewPreviewDisplay;
 
-        this.cameraGlViewPreviewDisplay.setVideoSize(videoResolution.getHeight(), videoResolution.getWidth());
+        this.cameraGlViewPreviewDisplay.setVideoSize(videoResolution.getWidth(), videoResolution.getHeight());
         frontAndBackCamEnabled = cameraGlViewPreviewDisplay.isFrontAndBackCamEnabled();
         this.directory = directory;
     }

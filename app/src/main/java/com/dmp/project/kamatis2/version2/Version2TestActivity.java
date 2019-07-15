@@ -59,7 +59,8 @@ public class Version2TestActivity extends AppCompatActivity implements Recording
 
 
     private void startCamera() {
-        VideoResolution videoResolution = new VideoResolution(1080, 1920);
+        Timber.d("starting camera.");
+        VideoResolution videoResolution = new VideoResolution(1920, 1080);
 
         CameraCaptureComponent2 cameraCaptureComponent2 = new CameraCaptureComponent2(cameraGlViewPreviewDisplay, videoResolution, getCacheDir().getPath());
         cameraCaptureController = cameraCaptureComponent2.getCameraCaptureController();
