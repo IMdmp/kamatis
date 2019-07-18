@@ -1,4 +1,4 @@
-package com.dmp.project.kamatis.version1.gles;
+package com.dmp.project.kamatis.version2.gles;
 /*
  * FlexCam
  * Sample project to cature audio and video from internal mic/camera and save as MPEG4 file.

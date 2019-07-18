@@ -7,17 +7,12 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.dmp.project.kamatis.version1.VideoResolution;
+
 import com.dmp.project.kamatis.version2.CameraCaptureComponent2;
 import com.dmp.project.kamatis.version2.CameraCaptureController;
 import com.dmp.project.kamatis.version2.CameraGLView;
+import com.dmp.project.kamatis.version2.gles.VideoResolution;
 import com.dmp.project.kamatis2.R;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;

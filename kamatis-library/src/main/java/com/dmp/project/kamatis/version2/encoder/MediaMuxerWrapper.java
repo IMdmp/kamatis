@@ -1,4 +1,4 @@
-package com.dmp.project.kamatis.version1.encoder;
+package com.dmp.project.kamatis.version2.encoder;
 /*
  * FlexCam
  * Sample project to cature audio and video from internal mic/camera and save as MPEG4 file.

@@ -3,11 +3,11 @@ package com.dmp.project.kamatis.version2;
 import android.util.Log;
 
 import com.dmp.project.kamatis.BuildConfig;
-import com.dmp.project.kamatis.version1.VideoResolution;
-import com.dmp.project.kamatis.version1.encoder.MediaAudioEncoder;
-import com.dmp.project.kamatis.version1.encoder.MediaEncoder;
-import com.dmp.project.kamatis.version1.encoder.MediaMuxerWrapper;
-import com.dmp.project.kamatis.version1.encoder.MediaVideoEncoder;
+import com.dmp.project.kamatis.version2.encoder.MediaAudioEncoder;
+import com.dmp.project.kamatis.version2.encoder.MediaEncoder;
+import com.dmp.project.kamatis.version2.encoder.MediaMuxerWrapper;
+import com.dmp.project.kamatis.version2.encoder.MediaVideoEncoder;
+import com.dmp.project.kamatis.version2.gles.VideoResolution;
 
 import java.io.IOException;
 
@@ -24,7 +24,7 @@ public class CameraCaptureComponent2 {
     private static final String VIDEO_TYPE_MP4 = ".mp4";
     private final String  directory;
 
-    public CameraCaptureComponent2(CameraGLView cameraGlViewPreviewDisplay, VideoResolution videoResolution,String directory) {
+    public CameraCaptureComponent2(CameraGLView cameraGlViewPreviewDisplay, VideoResolution videoResolution, String directory) {
         Log.d(TAG,"directory set to: "+directory);
         this.cameraGlViewPreviewDisplay = cameraGlViewPreviewDisplay;
 
@@ -126,9 +126,9 @@ public class CameraCaptureComponent2 {
     }
 
     /**
-     * start resorcing
+     * start resourcing
      * This is a sample project and call this on UI thread to avoid being complicated
-     * but basically this should be called on private thread because prepareing
+     * but basically this should be called on private thread because preparing
      * of encoder is heavy work
      */
     private void startRecordingCamera() {
