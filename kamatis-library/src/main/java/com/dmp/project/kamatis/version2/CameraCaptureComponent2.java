@@ -24,6 +24,12 @@ public class CameraCaptureComponent2 {
     private static final String VIDEO_TYPE_MP4 = ".mp4";
     private final String  directory;
 
+    public CameraGLView.CameraSurfaceRenderer getCameraSurfaceRenderer() {
+        return cameraSurfaceRenderer;
+    }
+
+    private CameraGLView.CameraSurfaceRenderer cameraSurfaceRenderer;
+
     public CameraCaptureComponent2(CameraGLView cameraGlViewPreviewDisplay, VideoResolution videoResolution, String directory) {
         Log.d(TAG,"directory set to: "+directory);
         this.cameraGlViewPreviewDisplay = cameraGlViewPreviewDisplay;
@@ -31,6 +37,8 @@ public class CameraCaptureComponent2 {
         this.cameraGlViewPreviewDisplay.setVideoSize(videoResolution.getWidth(), videoResolution.getHeight());
         frontAndBackCamEnabled = cameraGlViewPreviewDisplay.isFrontAndBackCamEnabled();
         this.directory = directory;
+
+       cameraSurfaceRenderer = cameraGlViewPreviewDisplay.getmRenderer();
     }
 
     private final CameraCaptureController cameraCaptureController = new CameraCaptureController() {

@@ -32,6 +32,7 @@ import android.opengl.GLES20;
 import android.opengl.GLException;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -46,12 +47,19 @@ import com.dmp.project.kamatis.BuildConfig;
 import com.dmp.project.kamatis.version2.encoder.MediaVideoEncoder;
 import com.dmp.project.kamatis.version2.gles.GLDrawer2D;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.nio.IntBuffer;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -86,7 +94,7 @@ public final class CameraGLView extends GLSurfaceView {
 	public CameraGLView(final Context context, final AttributeSet attrs, final int defStyle) {
 		super(context, attrs);
 		if (DEBUG) Log.v(TAG, "CameraGLView:");
-		mRenderer = new CameraSurfaceRenderer(this);
+		mRenderer = new CameraSurfaceRenderer(this,getVideoHeight(),getVideoWidth());
 		setEGLContextClientVersion(2);	// GLES 2.0, API >= 8
 		setRenderer(mRenderer);
 /*		// the frequency of refreshing of camera preview is at most 15 fps
@@ -129,6 +137,8 @@ public final class CameraGLView extends GLSurfaceView {
 				mRenderer.updateViewport();
 			}
 		});
+
+		mRenderer.setSizeParameters(width,height);
 	}
 
 	public int getVideoWidth() {
@@ -137,6 +147,10 @@ public final class CameraGLView extends GLSurfaceView {
 
 	public int getVideoHeight() {
 		return mVideoHeight;
+	}
+
+	public CameraSurfaceRenderer getmRenderer() {
+		return mRenderer;
 	}
 
 	public SurfaceTexture getSurfaceTexture() {
@@ -216,7 +230,7 @@ public final class CameraGLView extends GLSurfaceView {
 	/**
 	 * GLSurfaceViewのRenderer
 	 */
-	private static final class CameraSurfaceRenderer
+	public static final class CameraSurfaceRenderer
 		implements GLSurfaceView.Renderer,
 					SurfaceTexture.OnFrameAvailableListener {	// API >= 11
 
@@ -229,11 +243,19 @@ public final class CameraGLView extends GLSurfaceView {
 		private MediaVideoEncoder mVideoEncoder;
 		private volatile boolean requesrUpdateTex = false;
 		private boolean flip = true;
+		private int mVideoHeight;
+		private int mVideoWidth;
+		public boolean enableScreenshotBitmap ;
 
-		public CameraSurfaceRenderer(final CameraGLView parent) {
+
+
+		public CameraSurfaceRenderer(final CameraGLView parent, int videoHeight, int videoWidth) {
 			if (DEBUG) Log.v(TAG, "CameraSurfaceRenderer:");
 			mWeakParent = new WeakReference<CameraGLView>(parent);
 			Matrix.setIdentityM(mMvpMatrix, 0);
+			this.mVideoHeight = videoHeight;
+			this.mVideoWidth = videoWidth;
+			this.enableScreenshotBitmap = false;
 		}
 
 		@Override
@@ -354,8 +376,52 @@ public final class CameraGLView extends GLSurfaceView {
 //						mVideoEncoder.frameAvailableSoon(mStMatrix);
 						mVideoEncoder.frameAvailableSoon(mStMatrix, mMvpMatrix);
 
+
+
 					}
 				}
+			}
+			if(enableScreenshotBitmap){
+
+				saveToStorage(Objects.requireNonNull(createBitmapFromGLSurface(0, 0, mVideoWidth, mVideoHeight, unused)));
+				Log.d(TAG,"SCREENSHOTTED");
+				enableScreenshotBitmap  = false;
+			}
+		}
+
+		private void saveToStorage(Bitmap bitmapFromGLSurface) {
+
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			bitmapFromGLSurface.compress(Bitmap.CompressFormat.JPEG, 90, bos);
+			byte[] bitmapdata = bos.toByteArray();
+			ByteArrayInputStream fis = new ByteArrayInputStream(bitmapdata);
+
+			final Calendar c=Calendar.getInstance();
+			long mytimestamp=c.getTimeInMillis();
+			String timeStamp=String.valueOf(mytimestamp);
+			String myfile="cameraglview"+timeStamp+".jpeg";
+
+			File dir_image = new File(Environment.getExternalStorageDirectory() + File.separator +
+					"cameraglviewshot" + File.separator + "image");
+			dir_image.mkdirs();
+
+			Log.d(TAG,"DIRECTORY OUTPUT: " +  dir_image.getAbsolutePath());
+
+			try {
+				File tmpFile = new File(dir_image,myfile);
+				FileOutputStream fos = new FileOutputStream(tmpFile);
+
+				byte[] buf = new byte[1024];
+				int len;
+				while ((len = fis.read(buf)) > 0) {
+					fos.write(buf, 0, len);
+				}
+				fis.close();
+				fos.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 
@@ -383,7 +449,6 @@ public final class CameraGLView extends GLSurfaceView {
 			} catch (GLException e) {
 				return null;
 			}
-
 			return Bitmap.createBitmap(bitmapSource, w, h, Bitmap.Config.ARGB_8888);
 		}
 
@@ -394,6 +459,11 @@ public final class CameraGLView extends GLSurfaceView {
 //			final CameraGLView parent = mWeakParent.get();
 //			if (parent != null)
 //				parent.requestRender();
+		}
+
+		public void setSizeParameters(int width, int height) {
+			this.mVideoWidth = width;
+			this.mVideoHeight = height;
 		}
 	}
 

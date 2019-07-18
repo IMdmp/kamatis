@@ -4,6 +4,7 @@ import android.Manifest;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,18 +15,18 @@ import com.dmp.project.kamatis.version2.CameraGLView;
 import com.dmp.project.kamatis.version2.gles.VideoResolution;
 import com.dmp.project.kamatis2.R;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 import timber.log.Timber;
 
 public class Version2TestActivity extends AppCompatActivity implements RecordingMechanism4.CountdownListener {
     private CameraGLView cameraGlViewPreviewDisplay;
-    private Button startRecordingButton;
+    private Button startRecordingButton,takeScreenshotButton;
     private boolean isRecording;
     private CameraCaptureController cameraCaptureController;
     private Queue<RecordingMechanism4> recordingMechanismQueue = new LinkedList<>();
-
+    private  CameraGLView.CameraSurfaceRenderer cameraSurfaceRenderer;
+    private ImageView ivImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +34,8 @@ public class Version2TestActivity extends AppCompatActivity implements Recording
         setContentView(R.layout.activity_version2test);
         cameraGlViewPreviewDisplay = findViewById(R.id.cameraGlView);
         startRecordingButton = findViewById(R.id.btn_start_recording);
-
+        takeScreenshotButton = findViewById(R.id.btn_take_screenshot);
+        ivImage = findViewById(R.id.iv_image);
         isRecording = false;
         startCamera();
 
@@ -59,7 +61,7 @@ public class Version2TestActivity extends AppCompatActivity implements Recording
 
         CameraCaptureComponent2 cameraCaptureComponent2 = new CameraCaptureComponent2(cameraGlViewPreviewDisplay, videoResolution, getCacheDir().getPath());
         cameraCaptureController = cameraCaptureComponent2.getCameraCaptureController();
-
+        cameraSurfaceRenderer = cameraCaptureComponent2.getCameraSurfaceRenderer();
         startRecordingButton.setOnClickListener(view -> {
             if(!isRecording){
                 startRecordingButton.setText("recording...");
@@ -75,6 +77,16 @@ public class Version2TestActivity extends AppCompatActivity implements Recording
 //                isRecording = true;
 //                startRecordingButton.setText("Stop Recording");
 //            }
+        });
+
+
+        takeScreenshotButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Timber.d("attempting to take a screenshot...");
+                cameraSurfaceRenderer.enableScreenshotBitmap = true;
+
+            }
         });
     }
 
