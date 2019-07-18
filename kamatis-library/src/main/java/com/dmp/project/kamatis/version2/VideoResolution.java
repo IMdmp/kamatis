@@ -1,4 +1,4 @@
-package com.dmp.project.kamatis.version2.gles;
+package com.dmp.project.kamatis.version2;
 
 public class VideoResolution {
 

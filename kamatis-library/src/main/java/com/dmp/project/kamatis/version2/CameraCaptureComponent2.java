@@ -7,7 +7,6 @@ import com.dmp.project.kamatis.version2.encoder.MediaAudioEncoder;
 import com.dmp.project.kamatis.version2.encoder.MediaEncoder;
 import com.dmp.project.kamatis.version2.encoder.MediaMuxerWrapper;
 import com.dmp.project.kamatis.version2.encoder.MediaVideoEncoder;
-import com.dmp.project.kamatis.version2.gles.VideoResolution;
 
 import java.io.IOException;
 
@@ -23,7 +22,7 @@ public class CameraCaptureComponent2 {
     private String videoName= "test";
     private static final String VIDEO_TYPE_MP4 = ".mp4";
     private final String  directory;
-
+    private String directoryFolderName;
     public CameraGLView.CameraSurfaceRenderer getCameraSurfaceRenderer() {
         return cameraSurfaceRenderer;
     }
@@ -131,6 +130,10 @@ public class CameraCaptureComponent2 {
 
     public CameraCaptureController getCameraCaptureController() {
         return cameraCaptureController;
+    }
+
+    public void setDirectoryFolderName(String directoryFolderName) {
+        this.directoryFolderName = directoryFolderName;
     }
 
     /**

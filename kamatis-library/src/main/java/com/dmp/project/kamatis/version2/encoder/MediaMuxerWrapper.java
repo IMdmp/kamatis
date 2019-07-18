@@ -41,7 +41,8 @@ public class MediaMuxerWrapper {
 	private static final boolean DEBUG = false;	// TODO set false on release
 	private static final String TAG = "MediaMuxerWrapper";
 
-	private static final String DIR_NAME = "AVRecSample";
+//	private static final String DIR_NAME = "KamatisFolder";
+	private static String DIRECTORY_FOLDER_NAME = "KamatisFolder";
     private static final SimpleDateFormat mDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.US);
 	private final MediaMuxer mMediaMuxer;	// API >= 18
 	private String mOutputPath;
@@ -87,7 +88,7 @@ public class MediaMuxerWrapper {
 	 * @return return null when this app has no writing permission to external storage.
 	 */
 	private static final File getCaptureFile(String videoName, String directory, String ext) {
-		final File dir = new File(directory, DIR_NAME);
+		final File dir = new File(directory, DIRECTORY_FOLDER_NAME);
 		Log.d(TAG, "path=" + dir.toString());
 		dir.mkdirs();
 		if (dir.canWrite()) {
@@ -104,7 +105,7 @@ public class MediaMuxerWrapper {
 	 * @return return null when this app has no writing permission to external storage.
 	 */
 	public static final File getCaptureFile(final String type, final String ext) {
-		final File dir = new File(Environment.getExternalStoragePublicDirectory(type), DIR_NAME);
+		final File dir = new File(Environment.getExternalStoragePublicDirectory(type), DIRECTORY_FOLDER_NAME);
 		Log.d(TAG, "path=" + dir.toString());
 		dir.mkdirs();
 		if (dir.canWrite()) {
@@ -151,6 +152,10 @@ public class MediaMuxerWrapper {
 		if (mAudioEncoder != null)
 			mAudioEncoder.stopRecording();
 		mAudioEncoder = null;
+	}
+
+	public static void setDirectoryFolderName(String directoryFolderName) {
+		DIRECTORY_FOLDER_NAME = directoryFolderName;
 	}
 
 	public synchronized boolean isStarted() {

@@ -1,21 +1,5 @@
 package com.dmp.project.kamatis2;
 
-import android.Manifest;
-import android.opengl.GLSurfaceView;
-import android.os.Bundle;
-import android.widget.Button;
-
-import com.dmp.project.kamatis.version2.gles.VideoResolution;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-
-import java.util.List;
-
-import timber.log.Timber;
-
 public class MainActivity {
 
 //

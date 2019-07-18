@@ -94,7 +94,7 @@ public final class CameraGLView extends GLSurfaceView {
 	public CameraGLView(final Context context, final AttributeSet attrs, final int defStyle) {
 		super(context, attrs);
 		if (DEBUG) Log.v(TAG, "CameraGLView:");
-		mRenderer = new CameraSurfaceRenderer(this,getVideoHeight(),getVideoWidth());
+		mRenderer = new CameraSurfaceRenderer(this);
 		setEGLContextClientVersion(2);	// GLES 2.0, API >= 8
 		setRenderer(mRenderer);
 /*		// the frequency of refreshing of camera preview is at most 15 fps
@@ -249,12 +249,10 @@ public final class CameraGLView extends GLSurfaceView {
 
 
 
-		public CameraSurfaceRenderer(final CameraGLView parent, int videoHeight, int videoWidth) {
+		public CameraSurfaceRenderer(final CameraGLView parent) {
 			if (DEBUG) Log.v(TAG, "CameraSurfaceRenderer:");
 			mWeakParent = new WeakReference<CameraGLView>(parent);
 			Matrix.setIdentityM(mMvpMatrix, 0);
-			this.mVideoHeight = videoHeight;
-			this.mVideoWidth = videoWidth;
 			this.enableScreenshotBitmap = false;
 		}
 
@@ -626,16 +624,23 @@ public final class CameraGLView extends GLSurfaceView {
 					final Camera.Size recordingSize = getClosestSupportedSize(
 							parent.cameraSetting.getAllCommonSizesList(), width, height);
 
-					params.setPreviewSize(recordingSize.width, recordingSize.height);
+//					params.setPreviewSize(recordingSize.width, recordingSize.height);
 
-					// request closest picture size for an aspect ratio issue on Nexus7
-					final Camera.Size pictureSize = getClosestSupportedSize(
-							parent.cameraSetting.getAllCommonSizesList(), width, height);
 
-					params.setPictureSize(pictureSize.width, pictureSize.height);
+
+					params.setPreviewSize(width, height);
+
+//					// request closest picture size for an aspect ratio issue on Nexus7
+//					final Camera.Size pictureSize = getClosestSupportedSize(
+//							parent.cameraSetting.getAllCommonSizesList(), width, height);
+//
+//					params.setPictureSize(pictureSize.width, pictureSize.height);
 
 					// rotate camera preview according to the device orientation
 					setRotation(params);
+
+
+					Log.d(TAG,"setting parms: w"+params.getPreviewSize().width + ";h:"+params.getPreviewSize().height);
 					mCamera.setParameters(params);
 
 					// get the actual preview size
@@ -693,7 +698,7 @@ public final class CameraGLView extends GLSurfaceView {
 		 * rotate preview screen according to the device orientation
 		 * @param params
 		 */
-		private final void setRotation(final Camera.Parameters params) {
+		private final void 	setRotation(final Camera.Parameters params) {
 			if (DEBUG) Log.v(TAG, "setRotation:");
 			final CameraGLView parent = mWeakParent.get();
 			if (parent == null) return;
@@ -721,7 +726,12 @@ public final class CameraGLView extends GLSurfaceView {
 			}
 			// apply rotation setting
 			mCamera.setDisplayOrientation(degrees);
+
+
+
 			parent.mRotation = degrees;
+			Log.d(TAG,"degress: "+ degrees);
+
 			// XXX This method fails to call and camera stops working on some devices.
 //			params.setRotation(degrees);
 		}

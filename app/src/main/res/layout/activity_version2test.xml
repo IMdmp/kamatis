@@ -12,11 +12,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_start_recording"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="0dp"
         android:layout_height="0dp" />
     <ImageView
         android:id="@+id/iv_image"
+        android:visibility="gone"
         android:src="@drawable/ic_launcher_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
