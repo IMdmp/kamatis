@@ -68,10 +68,10 @@ public class MediaMuxerWrapper {
 	}
 
 
-	public MediaMuxerWrapper(String videoName,String directory,String ext) throws IOException {
+	public MediaMuxerWrapper(String videoName,String directory,String ext,String directoryFolderName) throws IOException {
 		if (TextUtils.isEmpty(ext)) ext = ".mp4";
 		try {
-			mOutputPath = getCaptureFile(videoName,directory, ext).toString();
+			mOutputPath = getCaptureFile(videoName,directory, ext,directoryFolderName).toString();
 		} catch (final NullPointerException e) {
 			throw new RuntimeException("This app has no permission of writing external storage");
 		}
@@ -97,6 +97,22 @@ public class MediaMuxerWrapper {
 		return null;
 	}
 
+	/**
+	 * generate output file
+	 * @param videoName name of video
+	 * @param directory Environment.DIRECTORY_MOVIES / Environment.DIRECTORY_DCIM etc.
+	 * @param ext  .mp4(.m4a for audio) or .png
+	 * @return return null when this app has no writing permission to external storage.
+	 */
+	private static final File getCaptureFile(String videoName, String directory, String ext,String folderDirectoryName) {
+		final File dir = new File(directory, folderDirectoryName);
+		Log.d(TAG, "path=" + dir.toString());
+		dir.mkdirs();
+		if (dir.canWrite()) {
+			return new File(dir, videoName + ext);
+		}
+		return null;
+	}
 	/**
 	 * generate output file
 	 *

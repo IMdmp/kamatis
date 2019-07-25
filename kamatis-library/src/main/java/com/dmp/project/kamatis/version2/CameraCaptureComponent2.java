@@ -104,8 +104,7 @@ public class CameraCaptureComponent2 {
     }
 
     public void prepareEncoder(String videoName) throws IOException {
-        mMuxer.setDirectoryFolderName(directoryFolderName);
-        mMuxer = new MediaMuxerWrapper(videoName, directory, VIDEO_TYPE_MP4);
+        mMuxer = new MediaMuxerWrapper(videoName, directory, VIDEO_TYPE_MP4,directoryFolderName);
 
         if (true) {
             // for video capturing
