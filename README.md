@@ -1,4 +1,4 @@
-# kamatis
+# kamatis currently [![](https://jitpack.io/v/IMdmp/kamatis.svg)](https://jitpack.io/#IMdmp/kamatis)
 Video capture library in the works
 
 based on <b> Grafika test app </b> read their readme: https://github.com/google/grafika to find out more on Android Graphics.
@@ -6,6 +6,7 @@ based on <b> Grafika test app </b> read their readme: https://github.com/google/
 
 
 useful later on : https://stackoverflow.com/questions/18558077/fully-change-package-name-including-company-domain
+
 
 
 also based on: https://github.com/lumyus/FlexCam
