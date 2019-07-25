@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.dmp.project.kamatis2.version2.Version2TestActivity;
+import com.dmp.project.kamatis2.version3.Version3TestActivity;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -40,7 +41,7 @@ public class Launcher extends AppCompatActivity {
 
                 if (report.areAllPermissionsGranted()) {
                     Timber.d("permission granted.");
-                    startActivity(new Intent(Launcher.this, Version2TestActivity.class));
+                    startActivity(new Intent(Launcher.this, Version3TestActivity.class));
                     finish();
                 } else {
                     Timber.d("else");

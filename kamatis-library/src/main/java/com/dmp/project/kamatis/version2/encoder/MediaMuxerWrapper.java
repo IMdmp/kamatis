@@ -154,7 +154,7 @@ public class MediaMuxerWrapper {
 		mAudioEncoder = null;
 	}
 
-	public static void setDirectoryFolderName(String directoryFolderName) {
+	public void setDirectoryFolderName(String directoryFolderName) {
 		DIRECTORY_FOLDER_NAME = directoryFolderName;
 	}
 

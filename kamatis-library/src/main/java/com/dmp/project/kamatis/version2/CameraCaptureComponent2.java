@@ -1,5 +1,7 @@
 package com.dmp.project.kamatis.version2;
 
+import android.graphics.Camera;
+import android.os.Environment;
 import android.util.Log;
 
 import com.dmp.project.kamatis.BuildConfig;
@@ -11,67 +13,122 @@ import com.dmp.project.kamatis.version2.encoder.MediaVideoEncoder;
 import java.io.IOException;
 
 public class CameraCaptureComponent2 {
-
     private static final String TAG = "CameraCaptureComponent2";
-
     private static final boolean DEBUG = BuildConfig.DEBUG;
     private final boolean frontAndBackCamEnabled;
     private final CameraGLView cameraGlViewPreviewDisplay;
+    private String directoryFolderName;
+    public static final String VIDEO_TYPE_MP4 = ".mp4";
+    private String directory;
+    private String videoName;
+    private VideoResolution videoResolution;
     private MediaMuxerWrapper mMuxer;
     private int cameraId = 1;
-    private String videoName= "test";
-    private static final String VIDEO_TYPE_MP4 = ".mp4";
-    private final String  directory;
-    private String directoryFolderName;
+
     public CameraGLView.CameraSurfaceRenderer getCameraSurfaceRenderer() {
         return cameraSurfaceRenderer;
     }
 
     private CameraGLView.CameraSurfaceRenderer cameraSurfaceRenderer;
 
-    public CameraCaptureComponent2(CameraGLView cameraGlViewPreviewDisplay, VideoResolution videoResolution, String directory) {
-        Log.d(TAG,"directory set to: "+directory);
-        this.cameraGlViewPreviewDisplay = cameraGlViewPreviewDisplay;
 
-        this.cameraGlViewPreviewDisplay.setVideoSize(videoResolution.getWidth(), videoResolution.getHeight());
+    private CameraCaptureComponent2(Builder builder) {
+        this.directory = null;
+        this.directoryFolderName = null;
+        this.cameraGlViewPreviewDisplay = builder.cameraGLView;
+        this.directory = builder.directory;
+        this.directoryFolderName = builder.directoryFolderName;
+        this.videoResolution = builder.videoResolution;
+
         frontAndBackCamEnabled = cameraGlViewPreviewDisplay.isFrontAndBackCamEnabled();
-        this.directory = directory;
+        cameraSurfaceRenderer = cameraGlViewPreviewDisplay.getmRenderer();
+        this.cameraGlViewPreviewDisplay.setVideoSize(videoResolution.getWidth(), videoResolution.getHeight());
 
-       cameraSurfaceRenderer = cameraGlViewPreviewDisplay.getmRenderer();
+
+        if(directory == null){
+            directory = Environment.getExternalStorageDirectory().getPath();
+        }
+        if(directoryFolderName ==null){
+            directoryFolderName = "CameraCaptureFolder";
+        }
     }
 
-    private final CameraCaptureController cameraCaptureController = new CameraCaptureController() {
-        @Override
-        public void pauseCamera() {
-            cameraGlViewPreviewDisplay.onPause();
+    public static class Builder {
+        private CameraGLView cameraGLView; //important
+        private String directory;
+        private String videoType;
+        private String directoryFolderName;
+        private VideoResolution videoResolution;
+
+
+        public Builder(CameraGLView cameraGLView, VideoResolution videoResolution) {
+            this.cameraGLView = cameraGLView;
+            this.videoResolution = videoResolution;
+        }
+
+
+
+        public Builder directory(String directory) {
+            this.directory = directory;
+
+            return this;
+        }
+
+        public Builder videoType(String videoType) {
+            this.videoType = videoType;
+
+            return this;
+        }
+
+        public Builder directoryFolderName(String directoryFolderName) {
+            this.directoryFolderName = directoryFolderName;
+
+            return this;
+        }
+
+        public CameraCaptureComponent2 build() {
+            return new CameraCaptureComponent2(this);
 
         }
 
 
-        @Override
-        public void resumeCamera() {
-            cameraGlViewPreviewDisplay.onResume();
+    }
 
+
+    public void pauseCamera(){
+        cameraGlViewPreviewDisplay.onPause();
+    }
+
+    public void resumeCamera(){
+        cameraGlViewPreviewDisplay.onResume();
+    }
+
+    public void prepareEncoder(String videoName) throws IOException {
+        mMuxer = new MediaMuxerWrapper(videoName, directory, VIDEO_TYPE_MP4);
+
+        if (true) {
+            // for video capturing
+            new MediaVideoEncoder(mMuxer, mMediaEncoderListener,
+                    mTimingListener,
+                    cameraGlViewPreviewDisplay.getVideoWidth(),
+                    cameraGlViewPreviewDisplay.getVideoHeight());
         }
+        if (true) {
+            // for audio capturing
+            new MediaAudioEncoder(mMuxer, mMediaEncoderListener, mTimingListener);
+        }
+        mMuxer.setDirectoryFolderName(directoryFolderName);
+        mMuxer.prepare();
+    }
 
-        @Override
-        public void startRecording() {
+    public void startRecording(){
             startRecordingCamera();
-        }
+    }
 
-        @Override
-        public void startRecording(String videoName) {
-            startRecordingCamera(videoName);
-
-        }
-
-        @Override
-        public void stopRecording() {
-            stopRecordingCamera();
-        }
-
-        @Override
-        public void switchCamView() {
+    public void stopRecording(){
+             stopRecordingCamera();
+    }
+    public void switchCamView() {
             if (frontAndBackCamEnabled) {
                 if (cameraId == 1) cameraId = 0;
                 else if (cameraId == 0) cameraId = 1;
@@ -80,9 +137,6 @@ public class CameraCaptureComponent2 {
                 Log.e(TAG,"cannot switch cam view");
             }
         }
-    };
-
-
 
     /**
      * callback methods from encoder
@@ -104,12 +158,12 @@ public class CameraCaptureComponent2 {
         }
     };
 
-    private final  MediaEncoder.TimingListener mTimingListener = new MediaEncoder.TimingListener() {
+    private final MediaEncoder.TimingListener mTimingListener = new MediaEncoder.TimingListener() {
 
         @Override
         public void onTimingStarted(MediaEncoder encoder, long startTime) {
-            if (encoder instanceof MediaAudioEncoder){
-                Log.d("Timing", "StartTime: "+startTime);
+            if (encoder instanceof MediaAudioEncoder) {
+                Log.d("Timing", "StartTime: " + startTime);
 //                startingTime = startTime;
 //                showProgressTime();
             }
@@ -117,8 +171,8 @@ public class CameraCaptureComponent2 {
 
         @Override
         public void onTimingStopped(MediaEncoder encoder, long endTime) {
-            if (encoder instanceof MediaAudioEncoder){
-                Log.d("Timing", "EndTime: "+endTime);
+            if (encoder instanceof MediaAudioEncoder) {
+                Log.d("Timing", "EndTime: " + endTime);
 //                legacyTime = totalTimePassedMs;
 //                timer.cancel();
 //                timer.purge();
@@ -127,10 +181,6 @@ public class CameraCaptureComponent2 {
     };
 
 
-
-    public CameraCaptureController getCameraCaptureController() {
-        return cameraCaptureController;
-    }
 
     public void setDirectoryFolderName(String directoryFolderName) {
         this.directoryFolderName = directoryFolderName;
@@ -144,55 +194,14 @@ public class CameraCaptureComponent2 {
      */
     private void startRecordingCamera() {
         if (DEBUG) Log.v(TAG, "startRecording:");
-        try {
-//            mRecordButton.setColorFilter(0xffff0000);    // turn red
-//            mMuxer = new MediaMuxerWrapper(".mp4");    // if you record audio only, ".m4a" is also OK.
-            mMuxer  = new MediaMuxerWrapper(videoName,directory,VIDEO_TYPE_MP4);
 
-            if (true) {
-                // for video capturing
-                new MediaVideoEncoder(mMuxer, mMediaEncoderListener,
-                        mTimingListener,
-                        cameraGlViewPreviewDisplay.getVideoWidth(),
-                        cameraGlViewPreviewDisplay.getVideoHeight());
-            }
-            if (true) {
-                // for audio capturing
-                new MediaAudioEncoder(mMuxer, mMediaEncoderListener, mTimingListener);
-            }
-            mMuxer.prepare();
+        if(mMuxer == null){
+            throw new RuntimeException("Encoder not set. have you called prepareEncoder? ");
+        }else{
             mMuxer.startRecording();
-        } catch (final IOException e) {
-//            mRecordButton.setColorFilter(0);
-            Log.e(TAG, "startCapture:", e);
         }
-    }
-    private void startRecordingCamera(String videoName) {
-        if (DEBUG) Log.v(TAG, "startRecording:");
-        try {
-//            mRecordButton.setColorFilter(0xffff0000);    // turn red
-//            mMuxer = new MediaMuxerWrapper(".mp4");    // if you record audio only, ".m4a" is also OK.
-            mMuxer  = new MediaMuxerWrapper(videoName,directory,VIDEO_TYPE_MP4);
 
-            if (true) {
-                // for video capturing
-                new MediaVideoEncoder(mMuxer, mMediaEncoderListener,
-                        mTimingListener,
-                        cameraGlViewPreviewDisplay.getVideoWidth(),
-                        cameraGlViewPreviewDisplay.getVideoHeight());
-            }
-            if (true) {
-                // for audio capturing
-                new MediaAudioEncoder(mMuxer, mMediaEncoderListener, mTimingListener);
-            }
-            mMuxer.prepare();
-            mMuxer.startRecording();
-        } catch (final IOException e) {
-//            mRecordButton.setColorFilter(0);
-            Log.e(TAG, "startCapture:", e);
-        }
     }
-
     /**
      * request stop recording
      */

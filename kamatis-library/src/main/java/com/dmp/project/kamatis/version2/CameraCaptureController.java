@@ -1,5 +1,7 @@
 package com.dmp.project.kamatis.version2;
 
+import java.io.IOException;
+
 public interface CameraCaptureController {
 
     void pauseCamera();
@@ -13,4 +15,6 @@ public interface CameraCaptureController {
     void stopRecording();
 
     void switchCamView();
+
+    void prepareCameraEncoder() throws IOException;
 }

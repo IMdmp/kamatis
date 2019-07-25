@@ -62,37 +62,37 @@ public class Version2TestActivity extends AppCompatActivity implements Recording
 
 
     private void startCamera() {
-        Timber.d("starting camera.");
-//        VideoResolution videoResolution = new VideoResolution(1080, 1920);
-        VideoResolution videoResolution = new VideoResolution(1920, 1080);
-
-        CameraCaptureComponent2 cameraCaptureComponent2 = new CameraCaptureComponent2(cameraGlViewPreviewDisplay, videoResolution, getCacheDir().getPath());
-        cameraCaptureController = cameraCaptureComponent2.getCameraCaptureController();
-        cameraCaptureComponent2.setDirectoryFolderName("Kamatis Test");
-        cameraSurfaceRenderer = cameraCaptureComponent2.getCameraSurfaceRenderer();
-        startRecordingButton.setOnClickListener(view -> {
-            if(!isRecording){
-                startRecordingButton.setText("recording...");
-                recordingMechanismQueue.remove().startTimer();
-                isRecording= true;
-            }
-//            if (isRecording) {
-//                cameraCaptureController.stopRecording();
-//                isRecording = false;?.
-//                startRecordingButton.setText("Start Recording");
-//            } else {
-//                cameraCaptureController.startRecording();
-//                isRecording = true;
-//                startRecordingButton.setText("Stop Recording");
+//        Timber.d("starting camera.");
+////        VideoResolution videoResolution = new VideoResolution(1080, 1920);
+//        VideoResolution videoResolution = new VideoResolution(1920, 1080);
+//
+//        CameraCaptureComponent2 cameraCaptureComponent2 = new CameraCaptureComponent2(cameraGlViewPreviewDisplay, videoResolution, getCacheDir().getPath());
+//        cameraCaptureController = cameraCaptureComponent2.getCameraCaptureController();
+//        cameraCaptureComponent2.setDirectoryFolderName("Kamatis Test");
+//        cameraSurfaceRenderer = cameraCaptureComponent2.getCameraSurfaceRenderer();
+//        startRecordingButton.setOnClickListener(view -> {
+//            if(!isRecording){
+//                startRecordingButton.setText("recording...");
+//                recordingMechanismQueue.remove().startTimer();
+//                isRecording= true;
 //            }
-        });
-
-
-        takeScreenshotButton.setOnClickListener(view -> {
-            Timber.d("attempting to take a screenshot...");
-            cameraSurfaceRenderer.enableScreenshotBitmap = true;
-
-        });
+////            if (isRecording) {
+////                cameraCaptureController.stopRecording();
+////                isRecording = false;?.
+////                startRecordingButton.setText("Start Recording");
+////            } else {
+////                cameraCaptureController.startRecording();
+////                isRecording = true;
+////                startRecordingButton.setText("Stop Recording");
+////            }
+//        });
+//
+//
+//        takeScreenshotButton.setOnClickListener(view -> {
+//            Timber.d("attempting to take a screenshot...");
+//            cameraSurfaceRenderer.enableScreenshotBitmap = true;
+//
+//        });
     }
 
     @Override
