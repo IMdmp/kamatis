@@ -39,7 +39,6 @@ public class CameraCaptureComponent2 {
         this.directory = builder.directory;
         this.directoryFolderName = builder.directoryFolderName;
         this.videoResolution = builder.videoResolution;
-
         frontAndBackCamEnabled = cameraGlViewPreviewDisplay.isFrontAndBackCamEnabled();
         cameraSurfaceRenderer = cameraGlViewPreviewDisplay.getmRenderer();
         this.cameraGlViewPreviewDisplay.setVideoSize(videoResolution.getWidth(), videoResolution.getHeight());
@@ -185,6 +184,8 @@ public class CameraCaptureComponent2 {
         this.directoryFolderName = directoryFolderName;
     }
 
+
+
     /**
      * start resourcing
      * This is a sample project and call this on UI thread to avoid being complicated
@@ -197,6 +198,7 @@ public class CameraCaptureComponent2 {
         if(mMuxer == null){
             throw new RuntimeException("Encoder not set. have you called prepareEncoder? ");
         }else{
+
             mMuxer.startRecording();
         }
 

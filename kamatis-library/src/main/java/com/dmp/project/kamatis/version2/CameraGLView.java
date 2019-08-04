@@ -338,9 +338,11 @@ public final class CameraGLView extends GLSurfaceView {
 					height = (int) (view_width / req);
 					y = (view_height - height) / 2;
 				}
+				x=0;
+				y=0;
 				// set viewport to draw keeping aspect ration of camera image
 				if (DEBUG) Log.v(TAG, String.format("xy(%d,%d),size(%d,%d)", x, y, width, height));
-				GLES20.glViewport(x, y, width, height);
+				GLES20.glViewport(x, y,  (int) video_width,  (int) video_height);
 
 				if (mDrawer != null)
 					mDrawer.setMatrix(mMvpMatrix, 0);
@@ -623,12 +625,11 @@ public final class CameraGLView extends GLSurfaceView {
 
 					final Camera.Size recordingSize = getClosestSupportedSize(
 							parent.cameraSetting.getAllCommonSizesList(), width, height);
+//
+					params.setPreviewSize(recordingSize.width, recordingSize.height);
+					Log.d(TAG,"setting parms2.0: w"+recordingSize.width + ";h:"+recordingSize.height);
 
-//					params.setPreviewSize(recordingSize.width, recordingSize.height);
-
-
-
-					params.setPreviewSize(width, height);
+//					params.setPreviewSize(width, height);
 
 //					// request closest picture size for an aspect ratio issue on Nexus7
 //					final Camera.Size pictureSize = getClosestSupportedSize(
@@ -640,7 +641,7 @@ public final class CameraGLView extends GLSurfaceView {
 					setRotation(params);
 
 
-					Log.d(TAG,"setting parms: w"+params.getPreviewSize().width + ";h:"+params.getPreviewSize().height);
+//					Log.d(TAG,"setting parms: w"+params.getPreviewSize().width + ";h:"+params.getPreviewSize().height);
 					mCamera.setParameters(params);
 
 					// get the actual preview size
