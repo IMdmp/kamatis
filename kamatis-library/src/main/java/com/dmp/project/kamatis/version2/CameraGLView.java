@@ -124,6 +124,9 @@ public final class CameraGLView extends GLSurfaceView {
 	}
 
 	public void setVideoSize(final int width, final int height) {
+
+
+		Log.d(TAG,"set video size. w" +width + "h: "+height);
 		if ((mRotation % 180) == 0) {
 			mVideoWidth = width;
 			mVideoHeight = height;
@@ -342,7 +345,7 @@ public final class CameraGLView extends GLSurfaceView {
 				y=0;
 				// set viewport to draw keeping aspect ration of camera image
 				if (DEBUG) Log.v(TAG, String.format("xy(%d,%d),size(%d,%d)", x, y, width, height));
-				GLES20.glViewport(x, y,  (int) video_width,  (int) video_height);
+				GLES20.glViewport(x, y,  (int) view_width,  (int) view_height);
 
 				if (mDrawer != null)
 					mDrawer.setMatrix(mMvpMatrix, 0);
@@ -594,7 +597,7 @@ public final class CameraGLView extends GLSurfaceView {
 		 * @param height
 		 */
 		private final void startPreview(final int width, final int height) {
-			if (DEBUG) Log.v(TAG, "startPreview:");
+			if (DEBUG) Log.v(TAG, "startPreview: w: " +width + " h: " + height );
 			final CameraGLView parent = mWeakParent.get();
 			if ((parent != null) && (mCamera == null)) {
 				// This is a sample project so just use 0 as camera ID.
