@@ -9,6 +9,7 @@ import com.dmp.project.kamatis.version2.encoder.MediaAudioEncoder;
 import com.dmp.project.kamatis.version2.encoder.MediaEncoder;
 import com.dmp.project.kamatis.version2.encoder.MediaMuxerWrapper;
 import com.dmp.project.kamatis.version2.encoder.MediaVideoEncoder;
+import com.dmp.project.kamatis.version2.glview.CameraSurfaceRenderer;
 
 import java.io.IOException;
 
@@ -25,11 +26,11 @@ public class CameraCaptureComponent2 {
     private MediaMuxerWrapper mMuxer;
     private int cameraId = 1;
 
-    public CameraGLView.CameraSurfaceRenderer getCameraSurfaceRenderer() {
+    private CameraSurfaceRenderer cameraSurfaceRenderer;
+
+    public CameraSurfaceRenderer getCameraSurfaceRenderer() {
         return cameraSurfaceRenderer;
     }
-
-    private CameraGLView.CameraSurfaceRenderer cameraSurfaceRenderer;
 
 
     private CameraCaptureComponent2(Builder builder) {

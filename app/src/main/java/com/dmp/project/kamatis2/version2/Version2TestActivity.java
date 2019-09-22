@@ -13,6 +13,7 @@ import com.dmp.project.kamatis.version2.CameraCaptureComponent2;
 import com.dmp.project.kamatis.version2.CameraCaptureController;
 import com.dmp.project.kamatis.version2.CameraGLView;
 import com.dmp.project.kamatis.version2.VideoResolution;
+import com.dmp.project.kamatis.version2.glview.CameraSurfaceRenderer;
 import com.dmp.project.kamatis2.R;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -25,7 +26,7 @@ public class Version2TestActivity extends AppCompatActivity implements Recording
     private boolean isRecording;
     private CameraCaptureController cameraCaptureController;
     private Queue<RecordingMechanism4> recordingMechanismQueue = new LinkedList<>();
-    private  CameraGLView.CameraSurfaceRenderer cameraSurfaceRenderer;
+    private CameraSurfaceRenderer cameraSurfaceRenderer;
     private ImageView ivImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -38,28 +38,28 @@ public class Version3TestActivity extends AppCompatActivity {
                                                         .directoryFolderName("version3Test")
                                                         .videoType(CameraCaptureComponent2.VIDEO_TYPE_MP4).build();
 
-        try {
-            cameraCaptureComponent.prepareEncoder("videoTest1");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        btnRecord.setOnClickListener(view -> {
-            if(isRecording){
-                isRecording = false;
-                cameraCaptureComponent.stopRecording();
-                btnRecord.setText("Start Recording");
-            }else{
-                try {
-                    cameraCaptureComponent.prepareEncoder(etVideoName.getText().toString());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                isRecording = true;
-                cameraCaptureComponent.startRecording();
-                btnRecord.setText("Stop Recording");
-            }
-        });
+//        try {
+//            cameraCaptureComponent.prepareEncoder("videoTest1");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        btnRecord.setOnClickListener(view -> {
+//            if(isRecording){
+//                isRecording = false;
+//                cameraCaptureComponent.stopRecording();
+//                btnRecord.setText("Start Recording");
+//            }else{
+//                try {
+//                    cameraCaptureComponent.prepareEncoder(etVideoName.getText().toString());
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                isRecording = true;
+//                cameraCaptureComponent.startRecording();
+//                btnRecord.setText("Stop Recording");
+//            }
+//        });
 
     }
 }
